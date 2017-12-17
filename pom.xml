@@ -57,6 +57,26 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>com.spring4all</groupId>
+			<artifactId>spring-boot-starter-swagger</artifactId>
+			<version>1.5.1.RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.drore.cloud</groupId>
+			<artifactId>swagger-bootstrap-ui</artifactId>
+			<version>1.4</version>
+		</dependency>
+
+		<!--<dependency>-->
+			<!--<groupId>org.projectlombok</groupId>-->
+			<!--<artifactId>lombok</artifactId>-->
+			<!--<version>1.16.16</version>-->
+			<!--<scope>provided</scope>-->
+		<!--</dependency>-->
+
 	</dependencies>
 
 	<build>

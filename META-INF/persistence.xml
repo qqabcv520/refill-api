@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+
+    <persistence-unit name="persistenceUnit">
+        <class>cn.mifan123.refill.po.DriftingBottleEntity</class>
+        <class>cn.mifan123.refill.po.FriendshipEntity</class>
+        <class>cn.mifan123.refill.po.UsersEntity</class>
+        <properties>
+            <property name="toplink.jdbc.url" value="jdbc:mysql://103.228.131.139:3306/refill"/>
+            <property name="toplink.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+            <property name="hibernate.connection.url" value="jdbc:mysql://103.228.131.139:3306/refill"/>
+            <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
+            <property name="openjpa.ConnectionURL" value="jdbc:mysql://103.228.131.139:3306/refill"/>
+            <property name="openjpa.ConnectionDriverName" value="com.mysql.jdbc.Driver"/>
+            <property name="eclipselink.jdbc.url" value="jdbc:mysql://103.228.131.139:3306/refill"/>
+            <property name="eclipselink.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+        </properties>
+    </persistence-unit>
+</persistence>
