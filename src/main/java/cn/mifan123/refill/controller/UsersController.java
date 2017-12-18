@@ -14,7 +14,7 @@ import java.util.List;
 @Api(value= "用户", description="用户相关API")
 @RestController
 @RequestMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
-public class UserController {
+public class UsersController {
 
 
     @ApiOperation(value = "用户信息")

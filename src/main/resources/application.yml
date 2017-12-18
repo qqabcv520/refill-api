@@ -25,7 +25,7 @@ swagger:
   description: 笔芯APP接口
   version: 0.1
   contact:
-    name: mifan and cj
+    name: mifan and CJ
     url: https://qqabcv520.github.io/mifanBlog/build
     email: 605655316@qq.com
   base-package: cn.mifan123.refill
@@ -47,7 +47,7 @@ spring:
 
 logging:
   level.root: info
-  level.cn.rocketspeed: debug
+#  level.cn.rocketspeed: debug
   path: logs/
   file: refill.log
 
