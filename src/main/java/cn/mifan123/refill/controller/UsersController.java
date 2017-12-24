@@ -1,7 +1,7 @@
 package cn.mifan123.refill.controller;
 
 import cn.mifan123.refill.common.vo.User;
-import cn.mifan123.refill.po.UsersEntity;
+import cn.mifan123.refill.common.vo.UserAuth;
 import cn.mifan123.refill.service.EncryptService;
 import cn.mifan123.refill.service.UsersService;
 import io.swagger.annotations.Api;
@@ -44,12 +44,8 @@ public class UsersController {
     @ApiOperation(value = "登录并获取token")
     @Transactional
     @PostMapping(value = "/token", consumes="application/json")
-    public String postToken(@RequestBody UserApi loginUser) {
-        return usersService.tokenWithUsername(loginUser.username, loginUser.password);
-    }
-    private static class UserApi {
-        String username;
-        String password;
+    public String postToken(@RequestBody UserAuth loginUser) {
+        return usersService.tokenWithUsername(loginUser.getUsername(), loginUser.getPassword());
     }
 
 

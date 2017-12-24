@@ -90,7 +90,7 @@ public abstract class EntityServiceImpl<P, V, ID extends Serializable> implement
     }
 
 
-    public <VO> P VoToPo(VO vo)  {
+    protected <VO> P VoToPo(VO vo)  {
         P po = null;
         try {
             po = getPClass().newInstance();
@@ -101,7 +101,7 @@ public abstract class EntityServiceImpl<P, V, ID extends Serializable> implement
         return po;
     }
 
-    public <VO> Iterable<P> VoListToPoList(Iterable<VO> voList) {
+    protected <VO> Iterable<P> VoListToPoList(Iterable<VO> voList) {
         ArrayList<P> list = new ArrayList<>();
         for(VO vo : voList) {
             list.add(VoToPo(vo));
@@ -109,7 +109,7 @@ public abstract class EntityServiceImpl<P, V, ID extends Serializable> implement
         return list;
     }
 
-    public <VO> VO PoToVo(P po, Class<VO> voClass)  {
+    protected <VO> VO PoToVo(P po, Class<VO> voClass)  {
         VO vo = null;
         try {
             vo = voClass.newInstance();
@@ -120,7 +120,7 @@ public abstract class EntityServiceImpl<P, V, ID extends Serializable> implement
         return vo;
     }
 
-    public <VO> Iterable<VO> PoListToVoList(Iterable<P> poList, Class<VO> voClass) {
+    protected <VO> Iterable<VO> PoListToVoList(Iterable<P> poList, Class<VO> voClass) {
 
         ArrayList<VO> list = new ArrayList<>();
         for(P po : poList) {

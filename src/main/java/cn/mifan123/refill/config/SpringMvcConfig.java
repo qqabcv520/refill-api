@@ -1,19 +1,30 @@
 package cn.mifan123.refill.config;
 
-import cn.mifan123.refill.resolver.ExceptionResolver;
+import cn.mifan123.refill.config.interceptor.AuthInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.HandlerExceptionResolver;
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-
-import java.util.List;
 
 /**
  * Created by 米饭 on 2017-05-26.
  */
 @Configuration
 public class SpringMvcConfig extends WebMvcConfigurerAdapter {
+
+
+    @Bean
+    HandlerInterceptor tokenInterceptor() {
+        return new AuthInterceptor();
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(tokenInterceptor())
+                .addPathPatterns("/api/**");
+    }
 
     @Override//跨域
     public void addCorsMappings(CorsRegistry registry) {
@@ -28,20 +39,20 @@ public class SpringMvcConfig extends WebMvcConfigurerAdapter {
 //        argumentResolvers.add(currentUserArgumentResolver());
 //    }
 //
-    @Override
-    public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
-        exceptionResolvers.add(exceptionResolver());
-    }
-
-//    @Bean
-//    public CurrentUserArgumentResolver currentUserArgumentResolver() {
-//        return new CurrentUserArgumentResolver();
+//    @Override
+//    public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
+//        exceptionResolvers.add(exceptionResolver());
 //    }
 //
-    @Bean
-    public ExceptionResolver exceptionResolver() {
-        return new ExceptionResolver();
-    }
+////    @Bean
+////    public CurrentUserArgumentResolver currentUserArgumentResolver() {
+////        return new CurrentUserArgumentResolver();
+////    }
+////
+//    @Bean
+//    public ExceptionResolver exceptionResolver() {
+//        return new ExceptionResolver();
+//    }
 
 //    @Override
 //    public void addInterceptors(InterceptorRegistry registry) {

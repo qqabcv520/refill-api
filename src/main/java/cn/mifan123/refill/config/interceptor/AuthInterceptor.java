@@ -1,9 +1,9 @@
-package cn.mifan123.refill.interceptor;
+package cn.mifan123.refill.config.interceptor;
 
 import cn.mifan123.refill.common.annotation.Auth;
 import cn.mifan123.refill.common.constant.Constants;
+import cn.mifan123.refill.common.exception.BusinessException;
 import cn.mifan123.refill.common.vo.User;
-import cn.mifan123.refill.exception.HttpException;
 import org.springframework.cache.Cache;
 import org.springframework.util.StringUtils;
 import org.springframework.web.method.HandlerMethod;
@@ -40,12 +40,12 @@ public class AuthInterceptor implements HandlerInterceptor {
                 String token = request.getHeader(Constants.TOKEN_HEADER_NAME);
 
                 if(StringUtils.isEmpty(token)) {
-                    throw new HttpException(401, "无token");
+                    throw new BusinessException(401, "无token");
                 }
 
                 User user = tokenCache.get(token, User.class);
                 if(user == null) {
-                    throw new HttpException(401, "无效的token");
+                    throw new BusinessException(401, "无效的token");
                 }
                 request.setAttribute(Constants.REQUEST_USER_KEY, user);
             }
