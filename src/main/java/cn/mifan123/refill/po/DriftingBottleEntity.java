@@ -16,6 +16,7 @@ public class DriftingBottleEntity {
     private Integer state;
 
     @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     public Integer getId() {
         return id;

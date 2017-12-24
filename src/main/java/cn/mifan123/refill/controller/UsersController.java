@@ -1,6 +1,8 @@
 package cn.mifan123.refill.controller;
 
 import cn.mifan123.refill.common.vo.User;
+import cn.mifan123.refill.po.UsersEntity;
+import cn.mifan123.refill.service.EncryptService;
 import cn.mifan123.refill.service.UsersService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -18,6 +20,9 @@ public class UsersController {
 
     @Resource
     private UsersService usersService;
+
+    @Resource
+    private EncryptService encryptService;
 //    private Logger logger = ;
 
 
@@ -27,6 +32,14 @@ public class UsersController {
         return usersService.findOne(userId);
     }
 
+    @ApiOperation(value = "用户注册")
+    @PostMapping(value = "/register")
+    public void register(@RequestParam String username, @RequestParam String password){
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(encryptService.encryptPassword(password, username));
+        usersService.save(user);
+    }
 
     @ApiOperation(value = "登录并获取token")
     @Transactional

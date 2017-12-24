@@ -18,6 +18,7 @@ public class UsersEntity {
     private String avatar;
 
     @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     public Integer getId() {
         return id;
