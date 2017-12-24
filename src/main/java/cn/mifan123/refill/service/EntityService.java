@@ -5,28 +5,29 @@ import java.io.Serializable;
 /**
  * Created by 米饭 on 2017-05-26.
  */
-public interface EntityService<T, ID extends Serializable> {
-    <S extends T> S save(S entity);
+public interface EntityService<P, V, ID extends Serializable> {
+    V save(V entity);
 
-    <S extends T> Iterable<S> save(Iterable<S> entities);
+    Iterable<V> save(Iterable<V> entities);
 
-    T findOne(ID id);
+    V findOne(ID id);
 
     boolean exists(ID id);
 
-    Iterable<T> findAll();
+    Iterable<V> findAll();
 
-    Iterable<T> findAll(Iterable<ID> ids);
+    Iterable<V> findAll(Iterable<ID> ids);
 
     long count();
 
     void delete(ID id);
 
-    void delete(T entity);
+    void delete(V entity);
 
-    void delete(Iterable<? extends T> entities);
+    void delete(Iterable<? extends V> entities);
 
     void deleteAll();
+
 
 
 }

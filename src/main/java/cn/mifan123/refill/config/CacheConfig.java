@@ -17,7 +17,7 @@ public class CacheConfig {
 
     /*
      * cache管理器
-	 */
+     */
     @Bean
     public CacheManager cacheCacheManager() {
         return new EhCacheCacheManager(cacheManagerFactoryBean().getObject());

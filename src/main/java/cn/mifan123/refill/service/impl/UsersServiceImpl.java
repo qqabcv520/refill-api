@@ -6,12 +6,13 @@ import cn.mifan123.refill.repository.UsersRepository;
 import cn.mifan123.refill.service.EncryptService;
 import cn.mifan123.refill.service.UsersService;
 import org.springframework.cache.Cache;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Date;
 
-public class UsersServiceImpl extends EntityServiceImpl<UsersEntity, Integer> implements UsersService {
+@Service
+public class UsersServiceImpl extends EntityServiceImpl<UsersEntity, User, Integer> implements UsersService {
 
 
     @Resource
@@ -37,11 +38,6 @@ public class UsersServiceImpl extends EntityServiceImpl<UsersEntity, Integer> im
         tokenCache.put(token, PoToVo(usersEntity, User.class));//缓存token
 
         return token;
-    }
-
-    @Override
-    public JpaRepository<UsersEntity, Integer> getEntityDao() {
-        return usersRepository;
     }
 
 

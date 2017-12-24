@@ -6,88 +6,110 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by 米饭 on 2017-05-26.
  */
-public abstract class EntityServiceImpl<T, ID extends Serializable> implements EntityService<T, ID> {
+public abstract class EntityServiceImpl<P, V, ID extends Serializable> implements EntityService<P, V, ID> {
 
-    /**
-     * 由业务类实现
-     * @return
-     */
-    public abstract JpaRepository<T, ID> getEntityDao();
+    @Resource
+    private JpaRepository<P, ID> jpaRepository;
+
 
     @Transactional
     @Override
-    public <S extends T> S save(S entity) {
-        return getEntityDao().save(entity);
+    public V save(V entity) {
+        P p = VoToPo(entity);
+        return PoToVo(jpaRepository.save(p), getVClass());
     }
 
     @Transactional
     @Override
-    public <S extends T> Iterable<S> save(Iterable<S> entities) {
-        return getEntityDao().save(entities);
+    public Iterable<V> save(Iterable<V> entities) {
+        Iterable<P> pIterable = VoListToPoList(entities);
+        return PoListToVoList(jpaRepository.save(pIterable), getVClass());
     }
 
     @Transactional(readOnly=true, isolation= Isolation.READ_COMMITTED)
     @Override
-    public T findOne(ID id) {
-        return getEntityDao().findOne(id);
+    public V findOne(ID id) {
+        return PoToVo(jpaRepository.findOne(id), getVClass());
     }
 
     @Transactional(readOnly=true, isolation= Isolation.READ_COMMITTED)
     @Override
     public boolean exists(ID id) {
-        return getEntityDao().exists(id);
+        return jpaRepository.exists(id);
     }
 
     @Transactional(readOnly=true, isolation= Isolation.READ_COMMITTED)
     @Override
-    public Iterable<T> findAll() {
-        return getEntityDao().findAll();
+    public Iterable<V> findAll() {
+        return PoListToVoList(jpaRepository.findAll(), getVClass());
     }
 
     @Transactional(readOnly=true, isolation= Isolation.READ_COMMITTED)
     @Override
-    public Iterable<T> findAll(Iterable<ID> ids) {
-        return getEntityDao().findAll(ids);
+    public Iterable<V> findAll(Iterable<ID> ids) {
+        return PoListToVoList(jpaRepository.findAll(ids), getVClass());
     }
 
     @Transactional(readOnly=true, isolation= Isolation.READ_COMMITTED)
     @Override
     public long count() {
-        return getEntityDao().count();
+        return jpaRepository.count();
     }
 
     @Transactional
     @Override
     public void delete(ID id) {
-        getEntityDao().delete(id);
+        jpaRepository.delete(id);
     }
 
     @Transactional
     @Override
-    public void delete(T entity) {
-        getEntityDao().delete(entity);
+    public void delete(V entity) {
+        jpaRepository.delete(VoToPo(entity));
     }
 
     @Transactional
     @Override
-    public void delete(Iterable<? extends T> entities) {
-        getEntityDao().delete(entities);
+    public void delete(Iterable<? extends V> entities) {
+        jpaRepository.delete(VoListToPoList(entities));
     }
 
     @Transactional
     @Override
     public void deleteAll() {
-        getEntityDao().deleteAll();
+        jpaRepository.deleteAll();
     }
 
-    public <VO> VO PoToVo(T po,  Class<VO> voClass)  {
+
+    public <VO> P VoToPo(VO vo)  {
+        P po = null;
+        try {
+            po = getPClass().newInstance();
+            BeanUtils.copyProperties(vo, po);
+        } catch (InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return po;
+    }
+
+    public <VO> Iterable<P> VoListToPoList(Iterable<VO> voList) {
+        ArrayList<P> list = new ArrayList<>();
+        for(VO vo : voList) {
+            list.add(VoToPo(vo));
+        }
+        return list;
+    }
+
+    public <VO> VO PoToVo(P po, Class<VO> voClass)  {
         VO vo = null;
         try {
             vo = voClass.newInstance();
@@ -95,18 +117,31 @@ public abstract class EntityServiceImpl<T, ID extends Serializable> implements E
         } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
-
         return vo;
     }
 
-    public <VO> List<VO> PoListToVoList(Iterable<T> poList, Class<VO> voClass) {
+    public <VO> Iterable<VO> PoListToVoList(Iterable<P> poList, Class<VO> voClass) {
 
-        List<VO> list = new ArrayList<>();
-
-        for(T po : poList) {
+        ArrayList<VO> list = new ArrayList<>();
+        for(P po : poList) {
             list.add(PoToVo(po, voClass));
         }
         return list;
     }
 
+
+
+    @SuppressWarnings("unchecked")
+    protected Class<P> getPClass() {
+        Type genType = getClass().getGenericSuperclass();
+        Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
+        return (Class<P>)params[0];
+    }
+
+    @SuppressWarnings("unchecked")
+    protected Class<V> getVClass() {
+        Type genType = getClass().getGenericSuperclass();
+        Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
+        return (Class<V>)params[1];
+    }
 }

@@ -1,5 +1,6 @@
 package cn.mifan123.refill.controller;
 
+import cn.mifan123.refill.common.vo.User;
 import cn.mifan123.refill.service.UsersService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -8,8 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.Map;
 
 
 @Api(value= "用户", description="用户相关API")
@@ -24,27 +23,18 @@ public class UsersController {
 
     @ApiOperation(value = "用户信息")
     @GetMapping("/{userId}")
-    public Integer list( @PathVariable("userId") Integer userId) {
-        return userId;
+    public User list(@PathVariable("userId") Integer userId) {
+        return usersService.findOne(userId);
     }
 
 
+    @ApiOperation(value = "登录并获取token")
     @Transactional
     @PostMapping(value = "/token", consumes="application/json")
-    public Map<String, Object> postToken(@RequestBody User loginUser) {
-
-        String token = usersService.tokenWithUsername(loginUser.username, loginUser.password);
-
-
-
-
-//        logger.info("用户" + username + "登录，登录成功");
-
-        Map<String, Object> map = new HashMap<>();
-        map.put("token", token);
-        return map;
+    public String postToken(@RequestBody UserApi loginUser) {
+        return usersService.tokenWithUsername(loginUser.username, loginUser.password);
     }
-    private static class User {
+    private static class UserApi {
         String username;
         String password;
     }
