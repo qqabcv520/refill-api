@@ -24,21 +24,21 @@ public abstract class EntityServiceImpl<P, V, ID extends Serializable> implement
     @Transactional
     @Override
     public V save(V entity) {
-        P p = VoToPo(entity);
-        return PoToVo(jpaRepository.save(p), getVClass());
+        P p = voToPo(entity);
+        return poToVo(jpaRepository.save(p), getVClass());
     }
 
     @Transactional
     @Override
     public Iterable<V> save(Iterable<V> entities) {
-        Iterable<P> pIterable = VoListToPoList(entities);
-        return PoListToVoList(jpaRepository.save(pIterable), getVClass());
+        Iterable<P> pIterable = voListToPoList(entities);
+        return poListToVoList(jpaRepository.save(pIterable), getVClass());
     }
 
     @Transactional(readOnly=true, isolation= Isolation.READ_COMMITTED)
     @Override
     public V findOne(ID id) {
-        return PoToVo(jpaRepository.findOne(id), getVClass());
+        return poToVo(jpaRepository.findOne(id), getVClass());
     }
 
     @Transactional(readOnly=true, isolation= Isolation.READ_COMMITTED)
@@ -50,13 +50,13 @@ public abstract class EntityServiceImpl<P, V, ID extends Serializable> implement
     @Transactional(readOnly=true, isolation= Isolation.READ_COMMITTED)
     @Override
     public Iterable<V> findAll() {
-        return PoListToVoList(jpaRepository.findAll(), getVClass());
+        return poListToVoList(jpaRepository.findAll(), getVClass());
     }
 
     @Transactional(readOnly=true, isolation= Isolation.READ_COMMITTED)
     @Override
     public Iterable<V> findAll(Iterable<ID> ids) {
-        return PoListToVoList(jpaRepository.findAll(ids), getVClass());
+        return poListToVoList(jpaRepository.findAll(ids), getVClass());
     }
 
     @Transactional(readOnly=true, isolation= Isolation.READ_COMMITTED)
@@ -74,13 +74,13 @@ public abstract class EntityServiceImpl<P, V, ID extends Serializable> implement
     @Transactional
     @Override
     public void delete(V entity) {
-        jpaRepository.delete(VoToPo(entity));
+        jpaRepository.delete(voToPo(entity));
     }
 
     @Transactional
     @Override
     public void delete(Iterable<? extends V> entities) {
-        jpaRepository.delete(VoListToPoList(entities));
+        jpaRepository.delete(voListToPoList(entities));
     }
 
     @Transactional
@@ -90,7 +90,13 @@ public abstract class EntityServiceImpl<P, V, ID extends Serializable> implement
     }
 
 
-    protected <VO> P VoToPo(VO vo)  {
+    /**
+     * 值对象转数据库对象
+     * @param vo
+     * @param <VO> 被转换成的值对象class
+     * @return
+     */
+    protected <VO> P voToPo(VO vo)  {
         P po = null;
         try {
             po = getPClass().newInstance();
@@ -101,15 +107,30 @@ public abstract class EntityServiceImpl<P, V, ID extends Serializable> implement
         return po;
     }
 
-    protected <VO> Iterable<P> VoListToPoList(Iterable<VO> voList) {
+
+    /**
+     * 值对象转数据库对象
+     * @param voList
+     * @param <VO> 被转换成的值对象class
+     * @return
+     */
+    protected <VO> Iterable<P> voListToPoList(Iterable<VO> voList) {
         ArrayList<P> list = new ArrayList<>();
         for(VO vo : voList) {
-            list.add(VoToPo(vo));
+            list.add(voToPo(vo));
         }
         return list;
     }
 
-    protected <VO> VO PoToVo(P po, Class<VO> voClass)  {
+
+    /**
+     * 数据库对象转值对象
+     * @param po
+     * @param voClass
+     * @param <VO>
+     * @return
+     */
+    protected <VO> VO poToVo(P po, Class<VO> voClass)  {
         VO vo = null;
         try {
             vo = voClass.newInstance();
@@ -120,15 +141,40 @@ public abstract class EntityServiceImpl<P, V, ID extends Serializable> implement
         return vo;
     }
 
-    protected <VO> Iterable<VO> PoListToVoList(Iterable<P> poList, Class<VO> voClass) {
+    /**
+     * 数据库对象转值对象
+     * @param po
+     * @return
+     */
+    protected V poToVo(P po)  {
+        return poToVo(po, getVClass());
+    }
+
+
+    /**
+     * 数据库对象转值对象
+     * @param poList
+     * @param voClass
+     * @param <VO>
+     * @return
+     */
+    protected <VO> Iterable<VO> poListToVoList(Iterable<P> poList, Class<VO> voClass) {
 
         ArrayList<VO> list = new ArrayList<>();
         for(P po : poList) {
-            list.add(PoToVo(po, voClass));
+            list.add(poToVo(po, voClass));
         }
         return list;
     }
 
+    /**
+     * 数据库对象转值对象
+     * @param poList
+     * @return
+     */
+    protected Iterable<V> poListToVoList(Iterable<P> poList) {
+        return poListToVoList(poList, getVClass());
+    }
 
 
     @SuppressWarnings("unchecked")

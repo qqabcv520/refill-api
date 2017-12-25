@@ -1,6 +1,6 @@
 package cn.mifan123.refill.config.resolver;//package lol.mifan.myblog.resolver;
 //
-//import lol.mifan.myblog.po.Users;
+//import lol.mifan.myblog.entity.Users;
 //import lol.mifan.myblog.service.UserService;
 //import lol.mifan.myblog.util.annitation.CurrentUser;
 //import org.springframework.core.MethodParameter;

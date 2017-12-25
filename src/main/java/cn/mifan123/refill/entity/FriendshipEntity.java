@@ -1,4 +1,4 @@
-package cn.mifan123.refill.po;
+package cn.mifan123.refill.entity;
 
 import javax.persistence.*;
 import java.util.Date;

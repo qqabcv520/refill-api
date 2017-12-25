@@ -2,9 +2,9 @@
 <persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
 
     <persistence-unit name="persistenceUnit">
-        <class>cn.mifan123.refill.po.DriftingBottleEntity</class>
-        <class>cn.mifan123.refill.po.FriendshipEntity</class>
-        <class>cn.mifan123.refill.po.UsersEntity</class>
+        <class>cn.mifan123.refill.entity.DriftingBottleEntity</class>
+        <class>cn.mifan123.refill.entity.FriendshipEntity</class>
+        <class>cn.mifan123.refill.entity.UsersEntity</class>
         <properties>
             <property name="toplink.jdbc.url" value="jdbc:mysql://103.228.131.139:3306/refill"/>
             <property name="toplink.jdbc.driver" value="com.mysql.jdbc.Driver"/>

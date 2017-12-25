@@ -1,7 +1,7 @@
 package cn.mifan123.refill.service.impl;
 
 import cn.mifan123.refill.common.vo.User;
-import cn.mifan123.refill.po.UsersEntity;
+import cn.mifan123.refill.entity.UsersEntity;
 import cn.mifan123.refill.repository.UsersRepository;
 import cn.mifan123.refill.service.EncryptService;
 import cn.mifan123.refill.service.UsersService;
@@ -35,7 +35,7 @@ public class UsersServiceImpl extends EntityServiceImpl<UsersEntity, User, Integ
         usersRepository.save(usersEntity);
 
         String token = encryptService.generateToken();
-        tokenCache.put(token, PoToVo(usersEntity, User.class));//缓存token
+        tokenCache.put(token, poToVo(usersEntity, User.class));//缓存token
 
         return token;
     }
