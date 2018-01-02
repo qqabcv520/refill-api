@@ -3,7 +3,6 @@
 ##########################################################
 
 
-
 ###################  spring配置  ###################
 spring:
   profiles:
@@ -29,7 +28,11 @@ swagger:
     url: https://qqabcv520.github.io/mifanBlog/build
     email: 605655316@qq.com
   base-package: cn.mifan123.refill
-  swagger.termsOfServiceUrl: https://github.com/qqabcv520/refill-api
+  termsOfServiceUrl: https://github.com/qqabcv520/refill-api
+
+common.jwt-key: bWlmYW4=
+
+
 
 ---
 
@@ -38,10 +41,17 @@ swagger:
 ##########################################################
 spring:
   profiles: dev
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
   datasource:
-    url: jdbc:mysql://103.228.131.139:3306/refill?autoReconnect=true&useUnicode=true&characterEncoding=utf8
-    username: Refill
-    password: ca2sNnhSjLuJ293vaG4sd30nh
+#    url: jdbc:mysql://103.228.131.139:3306/refill?autoReconnect=true&useUnicode=true&characterEncoding=utf8
+#    username: Refill
+#    password: ca2sNnhSjLuJ293vaG4sd30nh
+    url: jdbc:mysql://127.0.0.1:3306/refill?autoReconnect=true&useUnicode=true&characterEncoding=utf8
+    username: root
+    password: root
 
 
 

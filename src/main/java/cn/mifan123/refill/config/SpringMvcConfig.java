@@ -1,12 +1,16 @@
 package cn.mifan123.refill.config;
 
 import cn.mifan123.refill.config.interceptor.AuthInterceptor;
+import cn.mifan123.refill.config.resolver.CurrentUserArgumentResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import java.util.List;
 
 /**
  * Created by 米饭 on 2017-05-26.
@@ -20,10 +24,16 @@ public class SpringMvcConfig extends WebMvcConfigurerAdapter {
         return new AuthInterceptor();
     }
 
+
+    @Bean
+    HandlerMethodArgumentResolver currentUserArgumentResolver() {
+        return new CurrentUserArgumentResolver();
+    }
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(tokenInterceptor())
-                .addPathPatterns("/api/**");
+                .addPathPatterns("/**");
     }
 
     @Override//跨域
@@ -34,25 +44,11 @@ public class SpringMvcConfig extends WebMvcConfigurerAdapter {
 //                .maxAge(3600);
     }
 
-//    @Override
-//    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-//        argumentResolvers.add(currentUserArgumentResolver());
-//    }
-//
-//    @Override
-//    public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
-//        exceptionResolvers.add(exceptionResolver());
-//    }
-//
-////    @Bean
-////    public CurrentUserArgumentResolver currentUserArgumentResolver() {
-////        return new CurrentUserArgumentResolver();
-////    }
-////
-//    @Bean
-//    public ExceptionResolver exceptionResolver() {
-//        return new ExceptionResolver();
-//    }
+
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+        argumentResolvers.add(currentUserArgumentResolver());
+    }
 
 //    @Override
 //    public void addInterceptors(InterceptorRegistry registry) {

@@ -35,10 +35,18 @@ public interface EncryptService {
     String messageDigest(String strText, String strType);
 
     /**
-     * 生成随机token
+     * 生成简单随机字符串token
      * @author 范子才
      * @return
      * @version 2016年4月22日 下午10:52:45
      */
     String generateToken();
+
+
+    /**
+     * 生成JWT字符串token
+     * @param id
+     * @return
+     */
+    String generateToken(Integer id);
 }

@@ -2,8 +2,8 @@ package cn.mifan123.refill.common.constant;
 
 public interface Constants {
 
-    String TOKEN_HEADER_NAME = "TOKEN_HEADER_NAME";
-    String TOKEN_CACHE_NAME = "TOKEN_CACHE_NAME";
+    String TOKEN_HEADER_NAME = "Authorization";
     String REQUEST_USER_KEY = "REQUEST_USER_KEY";
+    String TOKEN_CACHE_NAME = "token";
 
 }

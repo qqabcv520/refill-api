@@ -3,8 +3,8 @@ package cn.mifan123.refill.config.interceptor;
 import cn.mifan123.refill.common.annotation.Auth;
 import cn.mifan123.refill.common.constant.Constants;
 import cn.mifan123.refill.common.exception.BusinessException;
-import cn.mifan123.refill.common.vo.User;
-import org.springframework.cache.Cache;
+import cn.mifan123.refill.config.CommonConfig;
+import io.jsonwebtoken.Jwts;
 import org.springframework.util.StringUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -18,8 +18,11 @@ import javax.servlet.http.HttpServletResponse;
 public class AuthInterceptor implements HandlerInterceptor {
 
 
+//    @Resource
+//    private Cache tokenCache;
+
     @Resource
-    private Cache tokenCache;
+    private CommonConfig commonConfig;
 
     /**
      * preHandle方法是进行处理器拦截用的，顾名思义，该方法将在Controller处理之前进行调用，SpringMVC中的Interceptor拦截器是链式的，可以同时存在
@@ -29,7 +32,7 @@ public class AuthInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request,
-                             HttpServletResponse response, Object handler) throws Exception {
+                             HttpServletResponse response, Object handler) {
 
 
         if(handler.getClass().isAssignableFrom(HandlerMethod.class)){
@@ -42,12 +45,19 @@ public class AuthInterceptor implements HandlerInterceptor {
                 if(StringUtils.isEmpty(token)) {
                     throw new BusinessException(401, "无token");
                 }
-
-                User user = tokenCache.get(token, User.class);
-                if(user == null) {
-                    throw new BusinessException(401, "无效的token");
+                Integer userId;
+                try {
+                    String subject = Jwts.parser()
+                            .setSigningKey(commonConfig.getJwtKey())
+                            .parseClaimsJws(token)
+                            .getBody()
+                            .getSubject(); //Will throw `SignatureException` if signature validation fails.
+                    userId = Integer.valueOf(subject);
+                } catch (Exception e) {
+                    throw new BusinessException(401, "token验证失败");
                 }
-                request.setAttribute(Constants.REQUEST_USER_KEY, user);
+
+                request.setAttribute(Constants.REQUEST_USER_KEY, userId);
             }
 
         }
@@ -65,7 +75,7 @@ public class AuthInterceptor implements HandlerInterceptor {
     @Override
     public void postHandle(HttpServletRequest request,
                            HttpServletResponse response, Object handler,
-                           ModelAndView modelAndView) throws Exception {
+                           ModelAndView modelAndView) {
         // TODO Auto-generated method stub
 
     }
@@ -76,8 +86,7 @@ public class AuthInterceptor implements HandlerInterceptor {
      */
     @Override
     public void afterCompletion(HttpServletRequest request,
-                                HttpServletResponse response, Object handler, Exception ex)
-            throws Exception {
+                                HttpServletResponse response, Object handler, Exception ex) {
         // TODO Auto-generated method stub
 
     }

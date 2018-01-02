@@ -1,6 +1,7 @@
 package cn.mifan123.refill.controller;
 
 import cn.mifan123.refill.common.exception.BusinessException;
+import cn.mifan123.refill.common.exception.UnauthorizedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -46,19 +47,28 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 请求方法不支持
+     * 业务异常
      */
     @ExceptionHandler(BusinessException.class)
     public Map<String, Object> businessExceptionHandler(HttpServletRequest request,
                                                         HttpServletResponse response,
-                                                        Exception exception) {
+                                                        BusinessException exception) {
         HashMap<String, Object> map = new HashMap<>();
-        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        map.put("error", "业务异常");
+        response.setStatus(exception.getCode());
+        map.put("error", exception.getMessage());
         log.warn("URI:" + request.getRequestURI() + ",  Exception:" + exception.toString());
         return map;
     }
 
-
+    @ExceptionHandler(UnauthorizedException.class)
+    public Map<String, Object> businessExceptionHandler(HttpServletRequest request,
+                                                        HttpServletResponse response,
+                                                        UnauthorizedException exception) {
+        HashMap<String, Object> map = new HashMap<>();
+        response.setStatus(exception.getCode());
+        map.put("error", exception.getMessage());
+        log.warn("URI:" + request.getRequestURI() + ",  Exception:" + exception.toString());
+        return map;
+    }
 
 }

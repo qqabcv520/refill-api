@@ -25,20 +25,20 @@ public abstract class EntityServiceImpl<P, V, ID extends Serializable> implement
     @Override
     public V save(V entity) {
         P p = voToPo(entity);
-        return poToVo(jpaRepository.save(p), getVClass());
+        return poToVo(jpaRepository.save(p));
     }
 
     @Transactional
     @Override
     public Iterable<V> save(Iterable<V> entities) {
         Iterable<P> pIterable = voListToPoList(entities);
-        return poListToVoList(jpaRepository.save(pIterable), getVClass());
+        return poListToVoList(jpaRepository.save(pIterable));
     }
 
     @Transactional(readOnly=true, isolation= Isolation.READ_COMMITTED)
     @Override
     public V findOne(ID id) {
-        return poToVo(jpaRepository.findOne(id), getVClass());
+        return poToVo(jpaRepository.findOne(id));
     }
 
     @Transactional(readOnly=true, isolation= Isolation.READ_COMMITTED)
@@ -50,13 +50,13 @@ public abstract class EntityServiceImpl<P, V, ID extends Serializable> implement
     @Transactional(readOnly=true, isolation= Isolation.READ_COMMITTED)
     @Override
     public Iterable<V> findAll() {
-        return poListToVoList(jpaRepository.findAll(), getVClass());
+        return poListToVoList(jpaRepository.findAll());
     }
 
     @Transactional(readOnly=true, isolation= Isolation.READ_COMMITTED)
     @Override
     public Iterable<V> findAll(Iterable<ID> ids) {
-        return poListToVoList(jpaRepository.findAll(ids), getVClass());
+        return poListToVoList(jpaRepository.findAll(ids));
     }
 
     @Transactional(readOnly=true, isolation= Isolation.READ_COMMITTED)

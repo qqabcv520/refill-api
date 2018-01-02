@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "drifting_bottle", schema = "refill", catalog = "")
+@Table(name = "drifting_bottle", schema = "refill")
 public class DriftingBottleEntity {
     private Integer id;
     private Integer senderId;

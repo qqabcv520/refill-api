@@ -59,6 +59,13 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+
+		<dependency>
 			<groupId>com.spring4all</groupId>
 			<artifactId>spring-boot-starter-swagger</artifactId>
 			<version>1.5.1.RELEASE</version>
@@ -83,13 +90,11 @@
             <scope>provided</scope>
         </dependency>
 
-
-		<!--<dependency>-->
-			<!--<groupId>org.projectlombok</groupId>-->
-			<!--<artifactId>lombok</artifactId>-->
-			<!--<version>1.16.16</version>-->
-			<!--<scope>provided</scope>-->
-		<!--</dependency>-->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>0.9.0</version>
+		</dependency>
 
 	</dependencies>
 

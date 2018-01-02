@@ -1,10 +1,15 @@
 package cn.mifan123.refill.service.impl;
 
+import cn.mifan123.refill.config.CommonConfig;
 import cn.mifan123.refill.service.EncryptService;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 
 /**
  * Created by 米饭 on 2017-05-23.
@@ -13,6 +18,8 @@ import java.security.NoSuchAlgorithmException;
 public class EncryptServiceImpl implements EncryptService {
 
 
+    @Resource
+    private CommonConfig commonConfig;
 
 
     @Override
@@ -69,4 +76,14 @@ public class EncryptServiceImpl implements EncryptService {
     public String generateToken() {
         return messageDigest(String.valueOf(System.currentTimeMillis()), "SHA-256");
     }
+
+    @Override
+    public String generateToken(Integer id) {
+        return Jwts.builder()
+                .setSubject(String.valueOf(id))
+                .signWith(SignatureAlgorithm.HS512, commonConfig.getJwtKey())
+                .setExpiration(new Date(System.currentTimeMillis() + commonConfig.getJwtExpiration()))
+                .compact();
+    }
+
 }
