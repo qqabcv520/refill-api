@@ -1,25 +1,18 @@
 package cn.mifan123.refill.controller;
 
-import cn.mifan123.refill.common.annotation.Auth;
-import cn.mifan123.refill.common.annotation.CurrentUser;
-import cn.mifan123.refill.common.constant.Constants;
-import cn.mifan123.refill.common.exception.BusinessException;
 import cn.mifan123.refill.common.vo.Token;
 import cn.mifan123.refill.common.vo.User;
 import cn.mifan123.refill.common.vo.UserAuth;
 import cn.mifan123.refill.service.EncryptService;
 import cn.mifan123.refill.service.UsersService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
-import java.util.Objects;
 
 @Slf4j
 @Api(value= "用户", description="用户相关API")
@@ -35,6 +28,7 @@ public class UsersController {
 
 
     @ApiOperation(value = "用户注册")
+    @Transactional
     @PostMapping(value = "")
     public User post(@RequestBody UserAuth userAuth){
         User user = new User();
@@ -55,17 +49,10 @@ public class UsersController {
     }
 
     @ApiOperation(value = "获取用户信息")
-    @Transactional
     @GetMapping(value = "/{id}")
-    @Auth
-    @ApiImplicitParam(value="令牌", paramType = "header", required = true, name = Constants.TOKEN_HEADER_NAME, dataType = "String")
-    public User get(@ApiIgnore @CurrentUser User user, @PathVariable("id") Integer id) {
-        if(!Objects.equals(user.getId(), id)) {
-            throw new BusinessException("无权限访问该用户");
-        }
-        return user;
+    public User get(@PathVariable("id") Integer id) {
+        return usersService.findOne(id);
     }
-
 
 
 }

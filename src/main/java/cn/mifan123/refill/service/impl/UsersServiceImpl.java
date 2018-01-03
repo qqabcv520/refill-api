@@ -6,6 +6,7 @@ import cn.mifan123.refill.entity.UsersEntity;
 import cn.mifan123.refill.repository.UsersRepository;
 import cn.mifan123.refill.service.EncryptService;
 import cn.mifan123.refill.service.UsersService;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -43,8 +44,8 @@ public class UsersServiceImpl extends EntityServiceImpl<UsersEntity, User, Integ
     }
 
 
-
-
-
-
+    @Override
+    public JpaRepository<UsersEntity, Integer> getJpaRepository() {
+        return usersRepository;
+    }
 }

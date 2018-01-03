@@ -16,6 +16,7 @@ public class UsersEntity {
     private Date createTime;
     private Date lastLoginTime;
     private String avatar;
+    private boolean enable;
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -108,6 +109,18 @@ public class UsersEntity {
         this.avatar = avatar;
     }
 
+
+    public boolean isEnable() {
+        return enable;
+    }
+
+    @Basic
+    @Column(name = "enable", nullable = false)
+    public void setEnable(boolean enable) {
+        this.enable = enable;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -129,4 +142,5 @@ public class UsersEntity {
 
         return Objects.hash(id, nickname, password, username, email, phone, createTime, lastLoginTime, avatar);
     }
+
 }

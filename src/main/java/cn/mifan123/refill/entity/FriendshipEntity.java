@@ -13,6 +13,7 @@ public class FriendshipEntity {
     private Integer intimacy;
     private Integer intimacyToday;
     private Date lastInteractive;
+    private Date createTime;
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -75,6 +76,18 @@ public class FriendshipEntity {
         this.lastInteractive = lastInteractive;
     }
 
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    @Basic
+    @Column(name = "create_time", nullable = true)
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -93,4 +106,5 @@ public class FriendshipEntity {
 
         return Objects.hash(id, userId, friendId, intimacy, intimacyToday, lastInteractive);
     }
+
 }
