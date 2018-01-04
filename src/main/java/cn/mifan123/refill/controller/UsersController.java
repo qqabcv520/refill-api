@@ -9,7 +9,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -28,7 +27,6 @@ public class UsersController {
 
 
     @ApiOperation(value = "用户注册")
-    @Transactional
     @PostMapping(value = "")
     public User post(@RequestBody UserAuth userAuth){
         User user = new User();
@@ -40,8 +38,7 @@ public class UsersController {
     }
 
     @ApiOperation(value = "登录并获取token")
-    @Transactional
-    @PostMapping(value = "/token", consumes="application/json")
+    @PostMapping(value = "/token", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Token postToken(@RequestBody UserAuth userAuth) {
         String token = usersService.tokenWithUsername(userAuth.getUsername(), userAuth.getPassword());
         log.info("用户登录：" + userAuth.getUsername());

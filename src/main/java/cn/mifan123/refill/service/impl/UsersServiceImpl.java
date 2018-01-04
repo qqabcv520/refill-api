@@ -8,6 +8,7 @@ import cn.mifan123.refill.service.EncryptService;
 import cn.mifan123.refill.service.UsersService;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
@@ -26,6 +27,7 @@ public class UsersServiceImpl extends EntityServiceImpl<UsersEntity, User, Integ
 
 
     @Override
+    @Transactional
     public String tokenWithUsername (String username, String password) {
 
         UsersEntity usersEntity = usersRepository.findByUsername(username);
