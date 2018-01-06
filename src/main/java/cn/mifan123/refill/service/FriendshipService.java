@@ -1,11 +1,10 @@
 package cn.mifan123.refill.service;
 
 import cn.mifan123.refill.common.vo.Friendship;
-import cn.mifan123.refill.entity.FriendshipEntity;
 
 import java.util.List;
 
-public interface FriendshipService extends EntityService<FriendshipEntity, Friendship, Integer> {
+public interface FriendshipService extends EntityService<Friendship, Integer> {
 
 
     /**

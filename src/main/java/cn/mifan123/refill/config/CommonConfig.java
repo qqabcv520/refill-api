@@ -1,21 +1,18 @@
 package cn.mifan123.refill.config;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-
+@Data
 @Component
 @ConfigurationProperties(prefix = "common")
 public class CommonConfig {
 
-    @Getter
-    @Setter
-    private String jwtKey;
+    private String jwtKey = "bWlmYW4=";
 
-
-    @Getter
-    @Setter
     private Integer jwtExpiration = 1000*60*60*24*15;
+
+    private String jMessageAppKey = "";
+    private String jMessageSecret = "";
 }

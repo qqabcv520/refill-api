@@ -45,6 +45,11 @@ public class UsersServiceImpl extends EntityServiceImpl<UsersEntity, User, Integ
         return encryptService.generateToken(usersEntity.getId());
     }
 
+    @Override
+    public User findByUsername(String username) {
+        return poToVo(usersRepository.findByUsername(username));
+    }
+
 
     @Override
     public JpaRepository<UsersEntity, Integer> getJpaRepository() {

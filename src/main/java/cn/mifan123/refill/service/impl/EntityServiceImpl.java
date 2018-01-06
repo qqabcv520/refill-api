@@ -15,7 +15,7 @@ import java.util.ArrayList;
 /**
  * Created by 米饭 on 2017-05-26.
  */
-public abstract class EntityServiceImpl<P, V, ID extends Serializable> implements EntityService<P, V, ID> {
+public abstract class EntityServiceImpl<P, V, ID extends Serializable> implements EntityService<V, ID> {
 
     /**
      * 获取当前EntityService的JpaRepository
@@ -104,6 +104,9 @@ public abstract class EntityServiceImpl<P, V, ID extends Serializable> implement
      * @return
      */
     protected <VO> P voToPo(VO vo)  {
+        if (vo == null) {
+            return null;
+        }
         P po = null;
         try {
             po = getPClass().newInstance();
@@ -138,6 +141,9 @@ public abstract class EntityServiceImpl<P, V, ID extends Serializable> implement
      * @return
      */
     protected <VO> VO poToVo(P po, Class<VO> voClass)  {
+        if (po == null) {
+            return null;
+        }
         VO vo = null;
         try {
             vo = voClass.newInstance();

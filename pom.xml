@@ -96,6 +96,19 @@
 			<version>0.9.0</version>
 		</dependency>
 
+	<!--极光推送-->
+		<dependency>
+			<groupId>cn.jpush.api</groupId>
+			<artifactId>jmessage-client</artifactId>
+			<version>1.1.6</version>
+		</dependency>
+		<dependency>
+			<groupId>cn.jpush.api</groupId>
+			<artifactId>jiguang-common</artifactId>
+			<version>1.0.9</version>
+		</dependency>
+
+
 	</dependencies>
 
 	<build>

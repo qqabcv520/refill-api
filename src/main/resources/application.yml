@@ -30,7 +30,11 @@ swagger:
   base-package: cn.mifan123.refill
   termsOfServiceUrl: https://github.com/qqabcv520/refill-api
 
-common.jwt-key: bWlmYW4=
+common:
+  jwt-key: bWlmYW4=
+  jwt-expiration: 1296000000
+  j-message-app-key: 91ec783f87a0fb9db61da80f
+  j-message-secret: d6ecf7f4b1f5d9a039addaf7
 
 
 

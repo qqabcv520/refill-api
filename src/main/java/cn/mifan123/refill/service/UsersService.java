@@ -1,9 +1,8 @@
 package cn.mifan123.refill.service;
 
 import cn.mifan123.refill.common.vo.User;
-import cn.mifan123.refill.entity.UsersEntity;
 
-public interface UsersService extends EntityService<UsersEntity, User, Integer> {
+public interface UsersService extends EntityService<User, Integer> {
     /**
      * 获取token
      * @param username
@@ -12,4 +11,10 @@ public interface UsersService extends EntityService<UsersEntity, User, Integer> 
      */
     String tokenWithUsername(String username, String password);
 
+    /**
+     * 根据用户名获User
+     * @param username
+     * @return
+     */
+    User findByUsername(String username);
 }

@@ -2,10 +2,13 @@ package cn.mifan123.refill.service;
 
 import java.io.Serializable;
 
+
 /**
- * Created by 米饭 on 2017-05-26.
+ *
+ * @param <V> 值对象
+ * @param <ID> 主键
  */
-public interface EntityService<P, V, ID extends Serializable> {
+public interface EntityService<V, ID extends Serializable> {
     V save(V entity);
 
     Iterable<V> save(Iterable<V> entities);
