@@ -32,10 +32,10 @@ public class DriftingBottleController {
     @ApiImplicitParam(value="令牌", paramType = "header", required = true, name = Constants.TOKEN_HEADER_NAME, dataType = "String")
     @ApiOperation(value = "扔瓶子")
     @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public DriftingBottle post(@ApiIgnore @CurrentUser Integer userid, @RequestBody DriftingBottleContent driftingBottleContent) {
+    public DriftingBottle post(@ApiIgnore @CurrentUser Integer userId, @RequestBody DriftingBottleContent driftingBottleContent) {
         DriftingBottle driftingBottle = new DriftingBottle();
         driftingBottle.setContent(driftingBottleContent.getContent());
-        driftingBottle.setSenderId(userid);
+        driftingBottle.setSenderId(userId);
         driftingBottle.setState(0);  //暂用0表示刚扔出的瓶子状态
         driftingBottle.setSendTime(new Date());
         driftingBottleService.save(driftingBottle);
