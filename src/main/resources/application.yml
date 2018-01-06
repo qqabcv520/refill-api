@@ -51,7 +51,7 @@ spring:
 #    password: ca2sNnhSjLuJ293vaG4sd30nh
     url: jdbc:mysql://127.0.0.1:3306/refill?autoReconnect=true&useUnicode=true&characterEncoding=utf8
     username: root
-    password: root
+    password: 228136
 
 
 

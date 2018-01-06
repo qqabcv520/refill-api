@@ -31,7 +31,7 @@ public class DriftingBottleController {
     @Auth
     @ApiImplicitParam(value="令牌", paramType = "header", required = true, name = Constants.TOKEN_HEADER_NAME, dataType = "String")
     @ApiOperation(value = "扔瓶子")
-    @PostMapping(value = "")
+    @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE)
     public DriftingBottle post(@ApiIgnore @CurrentUser Integer userid, @RequestBody DriftingBottleContent driftingBottleContent) {
         DriftingBottle driftingBottle = new DriftingBottle();
         driftingBottle.setContent(driftingBottleContent.getContent());
