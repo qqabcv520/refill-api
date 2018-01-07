@@ -42,17 +42,17 @@ public class DriftingBottleController {
     @Auth
     @ApiImplicitParam(value="令牌", paramType = "header", required = true, name = Constants.TOKEN_HEADER_NAME, dataType = "String")
     @ApiOperation(value = "获取我扔出的瓶子")
-    @GetMapping(value = "/senders")
-    public List<DriftingBottle> getSenders(@ApiIgnore @CurrentUser Integer senderId) {
-        return driftingBottleService.findAllBySenderId(senderId, null, null);
+    @GetMapping(value = "/senders/{page}/{size}")
+    public List<DriftingBottle> getSenders(@ApiIgnore @CurrentUser Integer senderId, @PathVariable("page") Integer page, @PathVariable("size") Integer size) {
+        return driftingBottleService.findAllBySenderId(senderId, page, size);
     }
 
     @Auth
     @ApiImplicitParam(value="令牌", paramType = "header", required = true, name = Constants.TOKEN_HEADER_NAME, dataType = "String")
     @ApiOperation(value = "获取我收到的瓶子")
-    @GetMapping(value = "/receivers")
-    public List<DriftingBottle> getReceivers(@ApiIgnore @CurrentUser Integer receiverId) {
-        return driftingBottleService.findAllByReceiverId(receiverId, null, null);
+    @GetMapping(value = "/receivers/{page}/{size}")
+    public List<DriftingBottle> getReceivers(@ApiIgnore @CurrentUser Integer receiverId, @PathVariable("page") Integer page, @PathVariable("size") Integer size) {
+        return driftingBottleService.findAllByReceiverId(receiverId, page, size);
     }
 
 }
