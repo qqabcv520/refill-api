@@ -51,12 +51,12 @@ spring:
   jpa:
     show-sql: true
   datasource:
-#    url: jdbc:mysql://103.228.131.139:3306/refill?autoReconnect=true&useUnicode=true&characterEncoding=utf8
-#    username: Refill
-#    password: ca2sNnhSjLuJ293vaG4sd30nh
-    url: jdbc:mysql://114.67.133.63:3306/refill?autoReconnect=true&useUnicode=true&characterEncoding=utf8
-    username: refill
-    password: hQD4KtL6WvDpxM4E
+    url: jdbc:mysql://127.0.0.1:3306/refill?autoReconnect=true&useUnicode=true&characterEncoding=utf8
+    username: root
+    password: root
+#    url: jdbc:mysql://114.67.133.63:3306/refill?autoReconnect=true&useUnicode=true&characterEncoding=utf8
+#    username: refill
+#    password: hQD4KtL6WvDpxM4E
 
 
 

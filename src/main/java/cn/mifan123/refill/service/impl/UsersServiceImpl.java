@@ -66,6 +66,7 @@ public class UsersServiceImpl extends EntityServiceImpl<UsersEntity, User, Integ
         UsersEntity user = new UsersEntity();
         user.setUsername(username);
         user.setPassword(encryptService.encryptPassword(password, username));
+        user.setCreateTime(new Date());
         user = usersRepository.save(user);
 
         imService.registerUsers(username, password);

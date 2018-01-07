@@ -17,6 +17,7 @@ public class UsersEntity {
     private Date lastLoginTime;
     private String avatar;
     private boolean enable;
+    private Integer sex;
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -110,16 +111,26 @@ public class UsersEntity {
     }
 
 
+    @Basic
+    @Column(name = "enable", nullable = false)
     public boolean isEnable() {
         return enable;
     }
 
-    @Basic
-    @Column(name = "enable", nullable = false)
     public void setEnable(boolean enable) {
         this.enable = enable;
     }
 
+
+    @Basic
+    @Column(name = "sex", nullable = true)
+    public Integer getSex() {
+        return sex;
+    }
+
+    public void setSex(Integer sex) {
+        this.sex = sex;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -142,5 +153,6 @@ public class UsersEntity {
 
         return Objects.hash(id, nickname, password, username, email, phone, createTime, lastLoginTime, avatar);
     }
+
 
 }
