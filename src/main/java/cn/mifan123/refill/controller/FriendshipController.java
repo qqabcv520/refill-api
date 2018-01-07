@@ -31,7 +31,7 @@ public class FriendshipController {
     @Auth
     @ApiImplicitParam(value="令牌", paramType = "header", required = true, name = Constants.TOKEN_HEADER_NAME, dataType = "String")
     @ApiOperation("获取用户好友列表")
-    @GetMapping("/friendships")
+    @GetMapping("")
     public List<Friendship> getFriendships(@ApiIgnore @CurrentUser Integer userId) {
         return friendshipService.findAllByUserId(userId, null, null);
     }
@@ -39,7 +39,7 @@ public class FriendshipController {
     @Auth
     @ApiImplicitParam(value="令牌", paramType = "header", required = true, name = Constants.TOKEN_HEADER_NAME, dataType = "String")
     @ApiOperation("添加好友")
-    @PostMapping(value = "/friendships", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Friendship postFriendships(@ApiIgnore @CurrentUser Integer userId, @RequestBody FriendId apiFriendId) {
         Friendship friendship = new Friendship();
         friendship.setFriendId(apiFriendId.getFriendId());
@@ -55,7 +55,7 @@ public class FriendshipController {
     @Auth
     @ApiImplicitParam(value="令牌", paramType = "header", required = true, name = Constants.TOKEN_HEADER_NAME, dataType = "String")
     @ApiOperation("删除好友")
-    @DeleteMapping("/friendships/{id}")
+    @DeleteMapping("/{id}")
     public void deleteFriendships(@ApiIgnore @CurrentUser Integer userId, @PathVariable("id") Integer id) {
         Friendship friendship = friendshipService.findOne(id);
         if(!Objects.equals(friendship.getUserId(), userId)) {
