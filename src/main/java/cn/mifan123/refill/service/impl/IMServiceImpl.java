@@ -1,7 +1,5 @@
 package cn.mifan123.refill.service.impl;
 
-import cn.jiguang.common.resp.APIConnectionException;
-import cn.jiguang.common.resp.APIRequestException;
 import cn.jmessage.api.JMessageClient;
 import cn.jmessage.api.common.model.RegisterInfo;
 import cn.mifan123.refill.common.exception.BusinessException;
@@ -30,13 +28,14 @@ public class IMServiceImpl implements IMService {
 
     @Override
     public void registerUsers(String username, String password) {
-        RegisterInfo registerInfo = RegisterInfo.newBuilder()
+
+        try {
+            RegisterInfo registerInfo = RegisterInfo.newBuilder()
                 .setUsername(username)
                 .setPassword(password)
                 .build();
-        try {
             getClient().registerUsers(new RegisterInfo[]{registerInfo});
-        } catch (APIConnectionException | APIRequestException e) {
+        } catch (Exception e) {
             throw new BusinessException("IM注册失败：" + e.getMessage());
         }
     }

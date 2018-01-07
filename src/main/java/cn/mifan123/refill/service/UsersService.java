@@ -17,4 +17,11 @@ public interface UsersService extends EntityService<User, Integer> {
      * @return
      */
     User findByUsername(String username);
+
+    /**
+     * 通过用户名注册
+     * @param username
+     * @param password
+     */
+    User registerByUsername(String username, String password);
 }

@@ -5,7 +5,7 @@ import cn.mifan123.refill.common.annotation.Auth;
 import cn.mifan123.refill.common.annotation.CurrentUser;
 import cn.mifan123.refill.common.constant.Constants;
 import cn.mifan123.refill.common.exception.BusinessException;
-import cn.mifan123.refill.common.vo.ApiFriendId;
+import cn.mifan123.refill.common.vo.FriendId;
 import cn.mifan123.refill.common.vo.Friendship;
 import cn.mifan123.refill.service.FriendshipService;
 import io.swagger.annotations.Api;
@@ -40,7 +40,7 @@ public class FriendshipController {
     @ApiImplicitParam(value="令牌", paramType = "header", required = true, name = Constants.TOKEN_HEADER_NAME, dataType = "String")
     @ApiOperation("添加好友")
     @PostMapping(value = "/friendships", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Friendship postFriendships(@ApiIgnore @CurrentUser Integer userId, @RequestBody ApiFriendId apiFriendId) {
+    public Friendship postFriendships(@ApiIgnore @CurrentUser Integer userId, @RequestBody FriendId apiFriendId) {
         Friendship friendship = new Friendship();
         friendship.setFriendId(apiFriendId.getFriendId());
         friendship.setUserId(userId);

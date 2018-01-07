@@ -1,17 +1,14 @@
 package cn.mifan123.refill.controller;
 
-import cn.mifan123.refill.common.exception.BusinessException;
 import cn.mifan123.refill.common.vo.Token;
 import cn.mifan123.refill.common.vo.User;
 import cn.mifan123.refill.common.vo.UserAuth;
 import cn.mifan123.refill.service.EncryptService;
-import cn.mifan123.refill.service.IMService;
 import cn.mifan123.refill.service.UsersService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -29,28 +26,11 @@ public class UsersController {
     private EncryptService encryptService;
 
 
-    @Resource
-    private IMService imService;
-
-    @Transactional
     @ApiOperation(value = "用户注册")
     @PostMapping(value = "")
     public User post(@RequestBody UserAuth userAuth){
 
-        if (usersService.findByUsername(userAuth.getUsername()) != null) {
-            throw new BusinessException("用户名已存在");
-        }
-
-
-        User user = new User();
-        user.setUsername(userAuth.getUsername());
-        user.setPassword(encryptService.encryptPassword(userAuth.getPassword(), userAuth.getUsername()));
-        user = usersService.save(user);
-
-        imService.registerUsers(userAuth.getUsername(), userAuth.getPassword());
-
-        log.info("用户注册：" + userAuth.getUsername());
-        return user;
+        return usersService.registerByUsername(userAuth.getUsername(), userAuth.getPassword());
     }
 
     @ApiOperation(value = "登录并获取token")
