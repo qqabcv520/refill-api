@@ -19,7 +19,7 @@ import java.util.List;
 
 @Api(value= "漂流瓶", description="漂流瓶相关API")
 @RestController
-@RequestMapping(value = "/driftingbottles", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/drifting-bottles", produces = MediaType.APPLICATION_JSON_VALUE)
 public class DriftingBottleController {
 
     @Resource

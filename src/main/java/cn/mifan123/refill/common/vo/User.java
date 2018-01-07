@@ -16,4 +16,5 @@ public class User {
     private Date createTime;
     private Date lastLoginTime;
     private String avatar;
+    private Integer sex;
 }
