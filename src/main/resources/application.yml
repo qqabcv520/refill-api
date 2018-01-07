@@ -7,9 +7,6 @@
 spring:
   profiles:
     active: dev
-  jpa:
-    hibernate:
-      ddl-auto: update
   http:
     multipart:
       max-request-size: 500MB #最大请求大小
@@ -49,21 +46,23 @@ common:
 spring:
   profiles: dev
   jpa:
+    hibernate:
+      ddl-auto: update
     show-sql: true
   datasource:
+#    url: jdbc:mysql://103.228.131.139:3306/refill?autoReconnect=true&useUnicode=true&characterEncoding=utf8
+#    username: Refill
+#    password: ca2sNnhSjLuJ293vaG4sd30nh
     url: jdbc:mysql://127.0.0.1:3306/refill?autoReconnect=true&useUnicode=true&characterEncoding=utf8
     username: root
-    password: root
-#    url: jdbc:mysql://114.67.133.63:3306/refill?autoReconnect=true&useUnicode=true&characterEncoding=utf8
-#    username: refill
-#    password: hQD4KtL6WvDpxM4E
+    password: 228136
 
 
 
 logging:
   level.root: info
 #  level.cn.rocketspeed: debug
-  path: ./logs/
+  path: logs/
   file: refill.log
 
 server:
@@ -77,13 +76,8 @@ server:
 spring:
   profiles: produce
   datasource:
-    url: jdbc:mysql://114.67.133.63:3306/refill?autoReconnect=true&useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql://114.67.133.63:3306/refill?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
     username: refill
     password: hQD4KtL6WvDpxM4E
 server:
   port: 8081
-
-logging:
-  level.root: warn
-  path: ./logs/
-  file: refill.log
