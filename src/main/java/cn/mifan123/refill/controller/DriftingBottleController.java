@@ -3,6 +3,7 @@ package cn.mifan123.refill.controller;
 import cn.mifan123.refill.common.annotation.Auth;
 import cn.mifan123.refill.common.annotation.CurrentUser;
 import cn.mifan123.refill.common.constant.Constants;
+import cn.mifan123.refill.common.constant.enums.DriftingBottleState;
 import cn.mifan123.refill.common.vo.DriftingBottle;
 import cn.mifan123.refill.common.vo.DriftingBottleContent;
 import cn.mifan123.refill.service.DriftingBottleService;
@@ -33,7 +34,7 @@ public class DriftingBottleController {
         DriftingBottle driftingBottle = new DriftingBottle();
         driftingBottle.setContent(driftingBottleContent.getContent());
         driftingBottle.setSenderId(userId);
-        driftingBottle.setState(0);  //暂用0表示刚扔出的瓶子状态
+        driftingBottle.setState(DriftingBottleState.NOT_PICK_UP.getCode());  //暂用0表示刚扔出的瓶子状态
         driftingBottle.setSendTime(new Date());
         driftingBottle = driftingBottleService.save(driftingBottle);
         return driftingBottle;
