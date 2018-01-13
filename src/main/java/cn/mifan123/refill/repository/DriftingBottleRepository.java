@@ -16,7 +16,7 @@ public interface DriftingBottleRepository extends JpaRepository<DriftingBottleEn
             "and id >= " +
             "(select floor(" +
             "rand() *" +
-            "((select max(id) from drifting_bottle) - (select min(id) from drifting_bottle)) +" +
+            "((select max(id) from drifting_bottle) - (select min(id) from drifting_bottle) + 1) +" +
             "(select min(id) from drifting_bottle)" +
             "))" +
             "limit 1;",
