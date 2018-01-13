@@ -56,4 +56,39 @@ public class DriftingBottleController {
         return driftingBottleService.findAllByReceiverId(receiverId, page, size);
     }
 
+    @Auth
+    @ApiImplicitParam(value="令牌", paramType = "header", required = true, name = Constants.TOKEN_HEADER_NAME, dataType = "String")
+    @ApiOperation(value = "捞瓶子")
+    @GetMapping(value = "")
+    public DriftingBottle get(@ApiIgnore @CurrentUser Integer senderId) {
+        DriftingBottle driftingBottle = driftingBottleService.findByRand(DriftingBottleState.NOT_PICK_UP.getCode(), senderId);
+        if(driftingBottle == null) {
+            return null;
+        }else {
+            driftingBottle.setState(DriftingBottleState.PICK_UP.getCode());
+            return driftingBottleService.save(driftingBottle);
+        }
+    }
+
+    @Auth
+    @ApiImplicitParam(value="令牌", paramType = "header", required = true, name = Constants.TOKEN_HEADER_NAME, dataType = "String")
+    @ApiOperation(value = "将捞起的瓶子扔回海里")
+    @PutMapping(value = "/throw-back/{drifting-bottle-id}")
+    public DriftingBottle putThrowBack(@PathVariable("drifting-bottle-id") Integer driftingBottleId) {
+        DriftingBottle driftingBottle = driftingBottleService.findOne(driftingBottleId);
+        driftingBottle.setState(DriftingBottleState.NOT_PICK_UP.getCode());
+        return driftingBottleService.save(driftingBottle);
+    }
+
+    @Auth
+    @ApiImplicitParam(value="令牌", paramType = "header", required = true, name = Constants.TOKEN_HEADER_NAME, dataType = "String")
+    @ApiOperation(value = "回复捞起的瓶子")
+    @PutMapping(value = "/reply/{drifting-bottle-id}")
+    public DriftingBottle putReply(@ApiIgnore @CurrentUser Integer receiverId, @PathVariable("drifting-bottle-id") Integer driftingBottleId) {
+        DriftingBottle driftingBottle = driftingBottleService.findOne(driftingBottleId);
+        driftingBottle.setReceiverId(receiverId);
+        driftingBottle.setReceiveTime(new Date());
+        driftingBottle.setState(DriftingBottleState.REPLY_UP.getCode());
+        return driftingBottleService.save(driftingBottle);
+    }
 }

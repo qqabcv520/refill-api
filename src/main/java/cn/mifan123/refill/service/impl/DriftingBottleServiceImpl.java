@@ -36,4 +36,9 @@ public class DriftingBottleServiceImpl extends EntityServiceImpl<DriftingBottleE
         List<DriftingBottleEntity> driftingBottleEntityList = driftingBottleRepository.findAllByReceiverId(receiverId, pageable);
         return poListToVoList(driftingBottleEntityList);
     }
+
+    @Override
+    public DriftingBottle findByRand(Integer state, Integer senderId) {
+        return poToVo(driftingBottleRepository.findByRand(state, senderId));
+    }
 }

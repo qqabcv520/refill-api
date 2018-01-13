@@ -23,4 +23,12 @@ public interface DriftingBottleService extends EntityService<DriftingBottle, Int
      * @return
      */
     List<DriftingBottle> findAllByReceiverId(Integer receiverId, Integer page, Integer size);
+
+    /**
+     *
+     * @param state
+     * @param senderId
+     * @return
+     */
+    DriftingBottle findByRand(Integer state, Integer senderId);
 }
