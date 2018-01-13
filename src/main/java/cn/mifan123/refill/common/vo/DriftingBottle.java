@@ -8,7 +8,9 @@ import java.util.Date;
 public class DriftingBottle {
     private Integer id;
     private Integer senderId;
+    private String senderName;
     private Integer receiverId;
+    private String receiverName;
     private String content;
     private Date sendTime;
     private Date receiveTime;

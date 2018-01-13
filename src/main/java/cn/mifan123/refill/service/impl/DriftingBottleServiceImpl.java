@@ -2,7 +2,9 @@ package cn.mifan123.refill.service.impl;
 
 import cn.mifan123.refill.common.vo.DriftingBottle;
 import cn.mifan123.refill.entity.DriftingBottleEntity;
+import cn.mifan123.refill.entity.UsersEntity;
 import cn.mifan123.refill.repository.DriftingBottleRepository;
+import cn.mifan123.refill.repository.UsersRepository;
 import cn.mifan123.refill.service.DriftingBottleService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +19,8 @@ public class DriftingBottleServiceImpl extends EntityServiceImpl<DriftingBottleE
 
     @Resource
     private DriftingBottleRepository driftingBottleRepository;
+    @Resource
+    private UsersRepository usersRepository;
 
     @Override
     public JpaRepository<DriftingBottleEntity, Integer> getJpaRepository() {
@@ -40,5 +44,19 @@ public class DriftingBottleServiceImpl extends EntityServiceImpl<DriftingBottleE
     @Override
     public DriftingBottle findByRand(Integer state, Integer senderId) {
         return poToVo(driftingBottleRepository.findByRand(state, senderId));
+    }
+
+    @Override
+    protected DriftingBottle poToVo(DriftingBottleEntity po) {
+        DriftingBottle driftingBottle = super.poToVo(po);
+        UsersEntity sender = usersRepository.getOne(driftingBottle.getSenderId());
+        UsersEntity receiver = usersRepository.getOne(driftingBottle.getReceiverId());
+        if(sender != null) {
+            driftingBottle.setSenderName(sender.getNickname());
+        }
+        if(receiver != null) {
+            driftingBottle.setReceiverName(receiver.getNickname());
+        }
+        return driftingBottle;
     }
 }
