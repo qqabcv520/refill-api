@@ -9,13 +9,18 @@ import cn.mifan123.refill.common.vo.FriendId;
 import cn.mifan123.refill.common.vo.Friendship;
 import cn.mifan123.refill.common.vo.FriendshipIntimacy;
 import cn.mifan123.refill.service.FriendshipService;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -80,9 +85,9 @@ public class FriendshipController {
     @Auth
     @ApiImplicitParam(value="令牌", paramType = "header", required = true, name = Constants.TOKEN_HEADER_NAME, dataType = "String")
     @ApiOperation("好友互动")
-    @PutMapping("/{id}/")
+    @PatchMapping("/{id}/")
     public void friendshipsInteractive(@ApiIgnore @CurrentUser Integer userId, @PathVariable("id") Integer id,
-                                       @RequestBody FriendshipIntimacy friendshipIntimacy) {
+                                       @RequestBody FriendshipIntimacy friendshipIntimacy) throws ParseException {
         Friendship friendship = friendshipService.findOne(id);
         if(friendship == null) {
             throw new BusinessException("不存在的好友关系");
@@ -90,7 +95,18 @@ public class FriendshipController {
         if(!Objects.equals(friendship.getUserId(), userId)) {
             throw new BusinessException("不属于自己的好友关系");
         }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String dateStr = sdf.format(new Date());//当前时间
+        Date yesterday = sdf.parse(dateStr);//抹去时分秒
+
+        if(friendship.getLastInteractive().getTime() < yesterday.getTime()) {//如果是昨天的增加的亲密度，则先清零
+            friendship.setIntimacyToday(0);
+        }
+        friendship.setIntimacyToday(friendshipIntimacy.getTodayIntimacy());
+
         friendshipService.save(friendship);
+
     }
 
 
