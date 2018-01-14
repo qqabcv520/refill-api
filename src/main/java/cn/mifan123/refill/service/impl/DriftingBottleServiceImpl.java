@@ -1,5 +1,6 @@
 package cn.mifan123.refill.service.impl;
 
+import cn.mifan123.refill.common.constant.enums.DriftingBottleState;
 import cn.mifan123.refill.common.vo.DriftingBottle;
 import cn.mifan123.refill.entity.DriftingBottleEntity;
 import cn.mifan123.refill.entity.UsersEntity;
@@ -37,7 +38,7 @@ public class DriftingBottleServiceImpl extends EntityServiceImpl<DriftingBottleE
     @Override
     public List<DriftingBottle> findAllByReceiverId(Integer receiverId, Integer page, Integer size) {
         Pageable pageable = new PageRequest(page==null ? 0 : page, size==null ? Integer.MAX_VALUE : size);
-        List<DriftingBottleEntity> driftingBottleEntityList = driftingBottleRepository.findAllByReceiverId(receiverId, pageable);
+        List<DriftingBottleEntity> driftingBottleEntityList = driftingBottleRepository.findAllByReceiverIdAndStateIsNot(receiverId, DriftingBottleState.DELETE_UP.getCode(), pageable);
         return poListToVoList(driftingBottleEntityList);
     }
 

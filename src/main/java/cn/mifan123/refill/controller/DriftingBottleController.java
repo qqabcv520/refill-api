@@ -4,6 +4,7 @@ import cn.mifan123.refill.common.annotation.Auth;
 import cn.mifan123.refill.common.annotation.CurrentUser;
 import cn.mifan123.refill.common.constant.Constants;
 import cn.mifan123.refill.common.constant.enums.DriftingBottleState;
+import cn.mifan123.refill.common.exception.BusinessException;
 import cn.mifan123.refill.common.vo.DriftingBottle;
 import cn.mifan123.refill.common.vo.DriftingBottleContent;
 import cn.mifan123.refill.service.DriftingBottleService;
@@ -82,23 +83,62 @@ public class DriftingBottleController {
 
     @Auth
     @ApiImplicitParam(value="令牌", paramType = "header", required = true, name = Constants.TOKEN_HEADER_NAME, dataType = "String")
-    @ApiOperation(value = "将捞起的瓶子扔回海里")
-    @PutMapping(value = "/throw-back/{drifting-bottle-id}")
-    public DriftingBottle putThrowBack(@PathVariable("drifting-bottle-id") Integer driftingBottleId) {
-        DriftingBottle driftingBottle = driftingBottleService.findOne(driftingBottleId);
-        driftingBottle.setState(DriftingBottleState.NOT_PICK_UP.getCode());
-        return driftingBottleService.save(driftingBottle);
-    }
+    @ApiOperation(value = "更改瓶子的状态")
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public DriftingBottle patchState(@ApiIgnore @CurrentUser Integer receiverId,
+                                   @PathVariable("id") Integer id,
+                                   @RequestBody cn.mifan123.refill.common.vo.DriftingBottleState driftingBottleState) {
 
-    @Auth
-    @ApiImplicitParam(value="令牌", paramType = "header", required = true, name = Constants.TOKEN_HEADER_NAME, dataType = "String")
-    @ApiOperation(value = "回复捞起的瓶子")
-    @PutMapping(value = "/reply/{drifting-bottle-id}")
-    public DriftingBottle putReply(@ApiIgnore @CurrentUser Integer receiverId, @PathVariable("drifting-bottle-id") Integer driftingBottleId) {
-        DriftingBottle driftingBottle = driftingBottleService.findOne(driftingBottleId);
-        driftingBottle.setReceiverId(receiverId);
-        driftingBottle.setReceiveTime(new Date());
-        driftingBottle.setState(DriftingBottleState.REPLY_UP.getCode());
-        return driftingBottleService.save(driftingBottle);
+        Integer state = driftingBottleState.getState();
+        DriftingBottle driftingBottle = driftingBottleService.findOne(id);
+        DriftingBottle returnDriftingBottle = null;
+
+        switch(DriftingBottleState.valueOf(driftingBottle.getState())) {
+            case NOT_PICK_UP: {
+                if (DriftingBottleState.PICK_UP.getCode() == state) {
+                    driftingBottle.setState(DriftingBottleState.PICK_UP.getCode());
+                    returnDriftingBottle = driftingBottleService.save(driftingBottle);
+                } else {
+                    throw new BusinessException("未捞起的瓶子只能转变为已捞起");
+                }
+                break;
+            }
+
+            case PICK_UP: {
+                if (DriftingBottleState.NOT_PICK_UP.getCode() == state) {
+                    driftingBottle.setState(DriftingBottleState.NOT_PICK_UP.getCode());
+                    returnDriftingBottle = driftingBottleService.save(driftingBottle);
+                } else if (DriftingBottleState.REPLY_UP.getCode() == state) {
+                    driftingBottle.setReceiverId(receiverId);
+                    driftingBottle.setReceiveTime(new Date());
+                    driftingBottle.setState(DriftingBottleState.REPLY_UP.getCode());
+                    returnDriftingBottle = driftingBottleService.save(driftingBottle);
+                } else {
+                    throw new BusinessException("已捞起的瓶子只能转变为未捞起或已回复");
+                }
+                break;
+            }
+
+            case REPLY_UP: {
+                if(DriftingBottleState.DELETE_UP.getCode() == state) {
+                    driftingBottle.setState(DriftingBottleState.DELETE_UP.getCode());
+                    returnDriftingBottle = driftingBottleService.save(driftingBottle);
+                }else {
+                    throw new BusinessException("已捞起的瓶子只能转变为已删除");
+                }
+                break;
+            }
+
+            case DELETE_UP: {
+                throw new BusinessException("已删除的瓶子不能转变");
+            }
+
+            default: {
+                throw new BusinessException("数据库drifting-bottle表state字段数据错误");
+            }
+
+        }
+
+        return returnDriftingBottle;
     }
 }

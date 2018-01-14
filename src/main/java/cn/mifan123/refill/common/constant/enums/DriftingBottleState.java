@@ -2,8 +2,7 @@ package cn.mifan123.refill.common.constant.enums;
 
 public enum DriftingBottleState {
 
-    NOT_PICK_UP(0, "未捡起"), PICK_UP(1, "已捡起"), REPLY_UP(2, "已回复");
-
+    NOT_PICK_UP(0, "未捡起"), PICK_UP(1, "已捡起"), REPLY_UP(2, "已回复"), DELETE_UP(3, "已删除");
 
     private int code;
     private String message;

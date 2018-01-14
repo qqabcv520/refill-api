@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface DriftingBottleRepository extends JpaRepository<DriftingBottleEntity, Integer> {
     List<DriftingBottleEntity> findAllBySenderId(Integer senderId, Pageable pageable);
-    List<DriftingBottleEntity> findAllByReceiverId(Integer receiverId, Pageable pageable);
+    List<DriftingBottleEntity> findAllByReceiverIdAndStateIsNot(Integer receiverId, Integer state, Pageable pageable);
     @Query(value = "select * from drifting_bottle " +
             "where state = ?1 " +
             "and sender_id != ?2 " +
