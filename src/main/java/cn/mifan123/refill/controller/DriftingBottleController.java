@@ -10,11 +10,13 @@ import cn.mifan123.refill.service.DriftingBottleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
 
@@ -43,16 +45,24 @@ public class DriftingBottleController {
     @Auth
     @ApiImplicitParam(value="令牌", paramType = "header", required = true, name = Constants.TOKEN_HEADER_NAME, dataType = "String")
     @ApiOperation(value = "获取我扔出的瓶子")
-    @GetMapping(value = "/senders/{page}/{size}")
-    public List<DriftingBottle> getSenders(@ApiIgnore @CurrentUser Integer senderId, @PathVariable("page") Integer page, @PathVariable("size") Integer size) {
+    @GetMapping(value = "/senders")
+    public List<DriftingBottle> getSenders(@ApiIgnore @CurrentUser Integer senderId,
+                                           @ApiParam("页码，从0开始")@RequestParam(required = false) Integer page,
+                                           @ApiParam("页大小")@RequestParam(required = false) Integer size,
+                                           HttpServletResponse response) {
+        response.setHeader("Total", String.valueOf(driftingBottleService.count()));
         return driftingBottleService.findAllBySenderId(senderId, page, size);
     }
 
     @Auth
     @ApiImplicitParam(value="令牌", paramType = "header", required = true, name = Constants.TOKEN_HEADER_NAME, dataType = "String")
     @ApiOperation(value = "获取我收到的瓶子")
-    @GetMapping(value = "/receivers/{page}/{size}")
-    public List<DriftingBottle> getReceivers(@ApiIgnore @CurrentUser Integer receiverId, @PathVariable("page") Integer page, @PathVariable("size") Integer size) {
+    @GetMapping(value = "/receivers")
+    public List<DriftingBottle> getReceivers(@ApiIgnore @CurrentUser Integer receiverId,
+                                             @ApiParam("页码，从0开始")@RequestParam(required = false) Integer page,
+                                             @ApiParam("页大小")@RequestParam(required = false) Integer size,
+                                             HttpServletResponse response) {
+        response.setHeader("Total", String.valueOf(driftingBottleService.count()));
         return driftingBottleService.findAllByReceiverId(receiverId, page, size);
     }
 

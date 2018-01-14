@@ -49,13 +49,17 @@ public class DriftingBottleServiceImpl extends EntityServiceImpl<DriftingBottleE
     @Override
     protected DriftingBottle poToVo(DriftingBottleEntity po) {
         DriftingBottle driftingBottle = super.poToVo(po);
-        UsersEntity sender = usersRepository.getOne(driftingBottle.getSenderId());
-        UsersEntity receiver = usersRepository.getOne(driftingBottle.getReceiverId());
-        if(sender != null) {
-            driftingBottle.setSenderName(sender.getNickname());
+        if(driftingBottle.getSenderId() != null) {
+            UsersEntity sender = usersRepository.getOne(driftingBottle.getSenderId());
+            if(sender != null) {
+                driftingBottle.setSenderName(sender.getNickname());
+            }
         }
-        if(receiver != null) {
-            driftingBottle.setReceiverName(receiver.getNickname());
+        if(driftingBottle.getReceiverId() != null) {
+            UsersEntity receiver = usersRepository.getOne(driftingBottle.getReceiverId());
+            if(receiver != null) {
+                driftingBottle.setReceiverName(receiver.getNickname());
+            }
         }
         return driftingBottle;
     }
