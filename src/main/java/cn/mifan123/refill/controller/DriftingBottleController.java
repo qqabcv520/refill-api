@@ -124,7 +124,7 @@ public class DriftingBottleController {
                     driftingBottle.setState(DriftingBottleState.DELETE_UP.getCode());
                     returnDriftingBottle = driftingBottleService.save(driftingBottle);
                 }else {
-                    throw new BusinessException("已捞起的瓶子只能转变为已删除");
+                    throw new BusinessException("已回复的瓶子只能转变为已删除");
                 }
                 break;
             }
