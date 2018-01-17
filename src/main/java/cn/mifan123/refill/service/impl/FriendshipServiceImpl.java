@@ -36,6 +36,9 @@ public class FriendshipServiceImpl extends EntityServiceImpl<FriendshipEntity, F
 
     @Override
     protected Friendship poToVo(FriendshipEntity po) {
+        if(po == null) {
+            return null;
+        }
         Friendship friendship = super.poToVo(po);
         UsersEntity usersEntity = usersRepository.getOne(friendship.getFriendId());
         if(usersEntity != null) {
